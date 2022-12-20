@@ -1,0 +1,52 @@
+{
+  "name": "hook-wxgzh",
+  "version": "0.0.0",
+  "description": "",
+  "author": "",
+  "license": "MIT",
+  "type": "module",
+  "husky": {
+    "hooks": {
+      "pre-push": "npm run lint"
+    }
+  },
+  "browser": {
+    "crypto": "crypto-browserify",
+    "stream": "stream-browserify"
+  },
+  "scripts": {
+    "dev": "export DEBUG=true && tsup --watch",
+    "clean": "del dist node_modules",
+    "build": "export DEBUG=false && tsup",
+    "ci": "npm run lint",
+    "lint": "eslint .",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@gera2ld/plaid": "~1.5.0",
+    "@gera2ld/plaid-react": "~1.5.0",
+    "@hyrious/esbuild-plugin-commonjs": "^0.2.2",
+    "babel-jest": "^29.3.1",
+    "cross-env": "^7.0.3",
+    "cssnano": "^5.1.14",
+    "del-cli": "^5.0.0",
+    "eslint-import-resolver-babel-module": "^5.3.1",
+    "husky": "^8.0.2",
+    "jsdom": "^20.0.3",
+    "node-stdlib-browser": "^1.2.0",
+    "postcss": "^8.4.20",
+    "postcss-modules": "^6.0.0",
+    "tsup": "^6.5.0",
+    "vitest": "^0.25.8"
+  },
+  "dependencies": {
+    "@babel/core": "^7.20.5",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/runtime": "^7.20.6",
+    "babel-loader": "^9.1.0",
+    "crossbell.js": "^0.14.0",
+    "esbuild-ifdef": "^0.2.0",
+    "esbuild-plugin-ifdef": "^1.0.1",
+    "ethers": "^5.7.2"
+  }
+}
