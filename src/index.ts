@@ -47,7 +47,7 @@ const main = async () => {
       (btn3 as HTMLElement).onclick = async function () {
         if (article) {
           appendSyncingNotice(document);
-          const newUrl = await save(article.content);
+          const newUrl = await save(article);
           appendSucceedNotice(document, newUrl);
         }
       };

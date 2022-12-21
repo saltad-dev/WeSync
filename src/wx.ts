@@ -99,7 +99,11 @@ export const extractArticle = (d: Document): Article | null => {
   const sections = [...iframe.querySelectorAll("p")].filter(
     (p) => !isHardcodeText(p)
   );
-  const content = sections.map((node) => node.innerHTML).join("<br>");
+  const content = sections
+    .map((node) =>
+      node.outerHTML.replace(/<mpchecktext(.*)<\/mpchecktext>/, "")
+    )
+    .join("<br>");
 
   let node = d.querySelector(".js_cover_preview");
   if (!node) return null;

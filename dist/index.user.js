@@ -2,7 +2,7 @@
 // @name        WeSync——发布微信公众号的同时把文章上链
 // @namespace   Violentmonkey Scripts
 // @description 全网唯一实时备份微信公众号文章的上链解决方案。
-// @match       https://mp.weixin.qq.com/cgi-bin/appmsg?t=media/appmsg_edit&action=edit*
+// @match       https://mp.weixin.qq.com/cgi-bin/appmsg?t=media/appmsg_edit*
 // @grant       none
 // @version     1.0.0
 // @author      Saltad
@@ -56519,11 +56519,28 @@ if (cid) {
     console.log("Contract connected. Logged in as " + characterId);
     return null;
   };
-  var makeUrl = (characterId2, noteId) => `https://crossbell.io/${characterId2}-${noteId}`;
+  var makeUrl = (characterId2, noteId) => `https://crossbell.io/notes/${characterId2}-${noteId}`;
   var predictPostUrl = () => makeUrl(characterId, noteCount + 1);
   var save = async (article) => {
     const { data } = await contract.postNote(characterId, {
-      content: article
+      content: article.content,
+      title: article.title,
+      attachments: [
+        {
+          name: "cover",
+          address: article.cover
+        }
+      ],
+      attributes: [
+        {
+          trait_type: "summary",
+          value: article.summary
+        },
+        {
+          trait_type: "author",
+          value: article.author
+        }
+      ]
     });
     return makeUrl(characterId, data.noteId);
   };
@@ -56606,7 +56623,9 @@ if (cid) {
     const sections = [...iframe.querySelectorAll("p")].filter(
       (p) => !isHardcodeText(p)
     );
-    const content = sections.map((node2) => node2.innerHTML).join("<br>");
+    const content = sections.map(
+      (node2) => node2.outerHTML.replace(/<mpchecktext(.*)<\/mpchecktext>/, "")
+    ).join("<br>");
     let node = d.querySelector(".js_cover_preview");
     if (!node)
       return null;
@@ -56682,7 +56701,7 @@ if (cid) {
         btn3.onclick = async function() {
           if (article) {
             appendSyncingNotice(document);
-            const newUrl = await save(article.content);
+            const newUrl = await save(article);
             appendSucceedNotice(document, newUrl);
           }
         };

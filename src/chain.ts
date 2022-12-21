@@ -3,6 +3,7 @@ import { ethers } from "ethers";
 /** Mock */
 //#ifdef DEBUG
 import { Network } from "crossbell.js";
+import { Article } from "./wx";
 
 const priKey =
   "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
@@ -98,13 +99,32 @@ export const setUp = async () => {
 };
 
 const makeUrl = (characterId: number, noteId: number) =>
-  `https://crossbell.io/${characterId}-${noteId}`;
+  `https://crossbell.io/notes/${characterId}-${noteId}`;
 
 export const predictPostUrl = () => makeUrl(characterId, noteCount + 1);
 
-export const save = async (article: string) => {
+export const save = async (article: Article) => {
   const { data } = await contract.postNote(characterId, {
-    content: article,
+    content: article.content,
+    title: article.title,
+    attachments: [
+      {
+        name: "cover",
+        address: article.cover,
+      },
+    ],
+    attributes: [
+      {
+        trait_type: "summary",
+        value: article.summary,
+      },
+      {
+        trait_type: "author",
+        value: article.author,
+      },
+    ],
+    // TODO
+    // sources:
   } as NoteMetadata);
   return makeUrl(characterId, data.noteId);
 };
