@@ -87,11 +87,8 @@ export const setUp = async () => {
   contract = await setUpContract(priKey);
 
   if (!(await hasEnoughBal())) {
-    console.log("BalanceNotEnough");
-
     return "BalanceNotEnough";
   }
-  console.log("start3");
 
   await setUpAccount();
   console.log("Contract connected. Logged in as " + characterId);

@@ -31,8 +31,8 @@ export const getArticleIframe = (d: Document) => {
 };
 const textPrefix = "本文已同步于 ";
 
-const isHardcodeText = (p: HTMLParagraphElement) => {
-  return p.textContent?.startsWith(textPrefix);
+const isHardcodeText = (node: ChildNode) => {
+  return node.textContent?.startsWith(textPrefix);
 };
 
 export const appendOnChainUrl = (d: Document, url: string) => {
@@ -91,17 +91,22 @@ export const extractArticle = (d: Document): Article | null => {
     d.querySelector("#js_description_area textarea") as HTMLInputElement
   ).value;
 
-  const iframe = getArticleIframe(d);
+  const iframe = getArticleIframe(d)?.querySelector("body");
   if (!iframe) return null;
 
   // Filter will preserve the original array order
   // https://stackoverflow.com/questions/39712160/does-javascript-filter-preserve-order
-  const sections = [...iframe.querySelectorAll("p")].filter(
-    (p) => !isHardcodeText(p)
-  );
+  const sections = [...iframe.childNodes].filter((node) => {
+    const nStyle = (node as HTMLElement).style;
+    return !isHardcodeText(node) && (nStyle ? nStyle.display !== "none" : true);
+  });
+
   const content = sections
     .map((node) =>
-      node.outerHTML.replace(/<mpchecktext(.*)<\/mpchecktext>/, "")
+      (node as HTMLElement)?.outerHTML?.replace(
+        /<mpchecktext[^>]*><\/mpchecktext>/g,
+        ""
+      )
     )
     .join("<br>");
 

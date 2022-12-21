@@ -56511,10 +56511,8 @@ if (cid) {
     }
     contract = await setUpContract(priKey);
     if (!await hasEnoughBal()) {
-      console.log("BalanceNotEnough");
       return "BalanceNotEnough";
     }
-    console.log("start3");
     await setUpAccount();
     console.log("Contract connected. Logged in as " + characterId);
     return null;
@@ -56564,9 +56562,9 @@ if (cid) {
     return iframe.contentWindow.document;
   };
   var textPrefix = "\u672C\u6587\u5DF2\u540C\u6B65\u4E8E ";
-  var isHardcodeText = (p) => {
+  var isHardcodeText = (node) => {
     var _a;
-    return (_a = p.textContent) == null ? void 0 : _a.startsWith(textPrefix);
+    return (_a = node.textContent) == null ? void 0 : _a.startsWith(textPrefix);
   };
   var appendOnChainUrl = (d, url2) => {
     var _a;
@@ -56614,17 +56612,25 @@ if (cid) {
     location.appendChild(newNode);
   };
   var extractArticle = (d) => {
+    var _a;
     const title = d.querySelector("#js_title_main textarea").value;
     const author = d.querySelector("#js_author_area input").value;
     const summary = d.querySelector("#js_description_area textarea").value;
-    const iframe = getArticleIframe(d);
+    const iframe = (_a = getArticleIframe(d)) == null ? void 0 : _a.querySelector("body");
     if (!iframe)
       return null;
-    const sections = [...iframe.querySelectorAll("p")].filter(
-      (p) => !isHardcodeText(p)
-    );
+    const sections = [...iframe.childNodes].filter((node2) => {
+      const nStyle = node2.style;
+      return !isHardcodeText(node2) && (nStyle ? nStyle.display !== "none" : true);
+    });
     const content = sections.map(
-      (node2) => node2.outerHTML.replace(/<mpchecktext(.*)<\/mpchecktext>/, "")
+      (node2) => {
+        var _a2;
+        return (_a2 = node2 == null ? void 0 : node2.outerHTML) == null ? void 0 : _a2.replace(
+          /<mpchecktext[^>]*><\/mpchecktext>/g,
+          ""
+        );
+      }
     ).join("<br>");
     let node = d.querySelector(".js_cover_preview");
     if (!node)
