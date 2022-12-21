@@ -25,8 +25,7 @@ export default defineConfig({
   banner: {
     js: `${BANNER}
 var priKey = "0xPUT_YOUR_PRIVATE_KEY_HERE";
-//e.g. var priKey = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
-  `,
+//e.g. var priKey = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";`,
   },
   platform: "browser",
   //https://github.com/evanw/esbuild/issues/1626
