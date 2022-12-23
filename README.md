@@ -1,6 +1,8 @@
 # 微信公众号上链 WeSync
 
 WeSync 是一个发布微信公众号的同时把文章上链的浏览器脚本。此脚本需要配合浏览器的脚本管理器插件一起工作。
+[![Watch the video](https://user-images.githubusercontent.com/121119893/209359538-bf66b36c-57d9-4319-a454-e479684ea719.jpg)](https://vimeo.com/783948560)
+
 ## 安装
 
 1. 浏览器支持
