@@ -4,6 +4,7 @@ export interface Article {
   cover: string;
   summary: string;
   content: string;
+  channel: string;
 }
 
 // Buttons Location
@@ -87,6 +88,8 @@ export const extractArticle = (d: Document): Article | null => {
   const author = (d.querySelector("#js_author_area input") as HTMLInputElement)
     .value;
 
+  const channel = d.querySelector(".appmsg_account_name")?.textContent || "";
+
   const summary = (
     d.querySelector("#js_description_area textarea") as HTMLInputElement
   ).value;
@@ -115,6 +118,7 @@ export const extractArticle = (d: Document): Article | null => {
   const cover = node["style"]["background-image"].split('"')[1].split("?")[0];
   return {
     title,
+    channel,
     author,
     content,
     cover,

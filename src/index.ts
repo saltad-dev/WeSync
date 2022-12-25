@@ -12,7 +12,6 @@ import {
 } from "./wx";
 
 const newBtnText = "备份并群发";
-console.log("injecting wx");
 
 const main = async () => {
   let errMsg: "InvalidPrivateKey" | "BalanceNotEnough" | "UnknownError" | null;

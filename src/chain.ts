@@ -120,6 +120,7 @@ export const save = async (article: Article) => {
         value: article.author,
       },
     ],
+    sources: ["WeSync", "公众号: " + article.channel],
     // TODO
     // sources:
   } as NoteMetadata);
