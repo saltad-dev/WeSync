@@ -56538,7 +56538,8 @@ if (cid) {
           trait_type: "author",
           value: article.author
         }
-      ]
+      ],
+      sources: ["WeSync", "\u516C\u4F17\u53F7: " + article.channel]
     });
     return makeUrl(characterId, data.noteId);
   };
@@ -56612,11 +56613,12 @@ if (cid) {
     location.appendChild(newNode);
   };
   var extractArticle = (d) => {
-    var _a;
+    var _a, _b;
     const title = d.querySelector("#js_title_main textarea").value;
     const author = d.querySelector("#js_author_area input").value;
+    const channel = ((_a = d.querySelector(".appmsg_account_name")) == null ? void 0 : _a.textContent) || "";
     const summary = d.querySelector("#js_description_area textarea").value;
-    const iframe = (_a = getArticleIframe(d)) == null ? void 0 : _a.querySelector("body");
+    const iframe = (_b = getArticleIframe(d)) == null ? void 0 : _b.querySelector("body");
     if (!iframe)
       return null;
     const sections = [...iframe.childNodes].filter((node2) => {
@@ -56638,6 +56640,7 @@ if (cid) {
     const cover = node["style"]["background-image"].split('"')[1].split("?")[0];
     return {
       title,
+      channel,
       author,
       content,
       cover,
@@ -56678,7 +56681,6 @@ if (cid) {
 
   // src/index.ts
   var newBtnText = "\u5907\u4EFD\u5E76\u7FA4\u53D1";
-  console.log("injecting wx");
   var main = async () => {
     let errMsg;
     try {
