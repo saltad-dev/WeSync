@@ -20,7 +20,8 @@
     "build": "export DEBUG=false && tsup",
     "ci": "npm run lint",
     "lint": "eslint .",
-    "test": "vitest run"
+    "test": "vitest run",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@gera2ld/plaid": "~1.5.0",
